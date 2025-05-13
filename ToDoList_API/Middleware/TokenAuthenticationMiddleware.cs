@@ -10,17 +10,17 @@
             _next = next;
             _configuration = configuration;
         }
-        public async Task Invoke(HttpContext context)
-        {
-            if (!context.Request.Headers.TryGetValue("ApiToken", out var extractedToken))
-                throw new UnauthorizedAccessException("API Token is missing.");
+            public async Task Invoke(HttpContext context)
+            {
+                if (!context.Request.Headers.TryGetValue("ApiToken", out var extractedToken))
+                    throw new UnauthorizedAccessException("API Token is missing.");
 
-            var token = _configuration.GetValue<string>("ApiToken");
+                var token = _configuration.GetValue<string>("ApiToken");
 
-            if (!token.Equals(extractedToken))
-                throw new UnauthorizedAccessException("Invalid API Token.");
+                if (!token.Equals(extractedToken))
+                    throw new UnauthorizedAccessException("Invalid API Token.");
 
-            await _next(context);
-        }
+                await _next(context);
+            }
     }
 }
